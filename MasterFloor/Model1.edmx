@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище user1Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Material_types">
+          <Key>
+            <PropertyRef Name="id_material_type" />
+          </Key>
+          <Property Name="id_material_type" Type="int" Nullable="false" />
+          <Property Name="percentage_of_marriage" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Partner_poducts">
+          <Key>
+            <PropertyRef Name="id_partner_product" />
+          </Key>
+          <Property Name="id_partner_product" Type="int" Nullable="false" />
+          <Property Name="id_product" Type="int" />
+          <Property Name="id_partner" Type="int" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="date_of_sale" Type="date" />
+        </EntityType>
+        <EntityType Name="Partners">
+          <Key>
+            <PropertyRef Name="id_partner" />
+          </Key>
+          <Property Name="id_partner" Type="int" Nullable="false" />
+          <Property Name="id_type_partners" Type="int" />
+          <Property Name="name_partners" Type="nvarchar" MaxLength="50" />
+          <Property Name="director" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="adress" Type="nvarchar(max)" />
+          <Property Name="INN" Type="nvarchar" MaxLength="20" />
+          <Property Name="rating" Type="int" />
+        </EntityType>
+        <EntityType Name="Partners_types">
+          <Key>
+            <PropertyRef Name="id__type_partners" />
+          </Key>
+          <Property Name="id__type_partners" Type="int" Nullable="false" />
+          <Property Name="name_type_partners" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "user1.dbo.Product" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Product_types">
+          <Key>
+            <PropertyRef Name="id_type" />
+          </Key>
+          <Property Name="id_type" Type="int" Nullable="false" />
+          <Property Name="name_type" Type="nvarchar" MaxLength="50" />
+          <Property Name="coefficient_product" Type="decimal" Precision="5" Scale="2" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="id_poduct" />
+          </Key>
+          <Property Name="id_poduct" Type="int" Nullable="false" />
+          <Property Name="id_type" Type="int" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="article" Type="nvarchar" MaxLength="10" />
+          <Property Name="price" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <Association Name="FK_Partner_poducts_Partners">
+          <End Role="Partners" Type="Self.Partners" Multiplicity="0..1" />
+          <End Role="Partner_poducts" Type="Self.Partner_poducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partners">
+              <PropertyRef Name="id_partner" />
+            </Principal>
+            <Dependent Role="Partner_poducts">
+              <PropertyRef Name="id_partner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partner_poducts_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="Partner_poducts" Type="Self.Partner_poducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="id_poduct" />
+            </Principal>
+            <Dependent Role="Partner_poducts">
+              <PropertyRef Name="id_product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partners_Material_types">
+          <End Role="Material_types" Type="Self.Material_types" Multiplicity="1" />
+          <End Role="Partners" Type="Self.Partners" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Material_types">
+              <PropertyRef Name="id_material_type" />
+            </Principal>
+            <Dependent Role="Partners">
+              <PropertyRef Name="id_partner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partners_Partners_types">
+          <End Role="Partners_types" Type="Self.Partners_types" Multiplicity="0..1" />
+          <End Role="Partners" Type="Self.Partners" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partners_types">
+              <PropertyRef Name="id__type_partners" />
+            </Principal>
+            <Dependent Role="Partners">
+              <PropertyRef Name="id_type_partners" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Product_types">
+          <End Role="Product_types" Type="Self.Product_types" Multiplicity="0..1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_types">
+              <PropertyRef Name="id_type" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="id_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище user1ModelContainer">
+          <EntitySet Name="Material_types" EntityType="Self.Material_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partner_poducts" EntityType="Self.Partner_poducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partners" EntityType="Self.Partners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partners_types" EntityType="Self.Partners_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_types" EntityType="Self.Product_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Partner_poducts_Partners" Association="Self.FK_Partner_poducts_Partners">
+            <End Role="Partners" EntitySet="Partners" />
+            <End Role="Partner_poducts" EntitySet="Partner_poducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partner_poducts_Products" Association="Self.FK_Partner_poducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Partner_poducts" EntitySet="Partner_poducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partners_Material_types" Association="Self.FK_Partners_Material_types">
+            <End Role="Material_types" EntitySet="Material_types" />
+            <End Role="Partners" EntitySet="Partners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partners_Partners_types" Association="Self.FK_Partners_Partners_types">
+            <End Role="Partners_types" EntitySet="Partners_types" />
+            <End Role="Partners" EntitySet="Partners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_Product_types" Association="Self.FK_Products_Product_types">
+            <End Role="Product_types" EntitySet="Product_types" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="user1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Material_types">
+          <Key>
+            <PropertyRef Name="id_material_type" />
+          </Key>
+          <Property Name="id_material_type" Type="Int32" Nullable="false" />
+          <Property Name="percentage_of_marriage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Partners" Relationship="Self.FK_Partners_Material_types" FromRole="Material_types" ToRole="Partners" />
+        </EntityType>
+        <EntityType Name="Partner_poducts">
+          <Key>
+            <PropertyRef Name="id_partner_product" />
+          </Key>
+          <Property Name="id_partner_product" Type="Int32" Nullable="false" />
+          <Property Name="id_product" Type="Int32" />
+          <Property Name="id_partner" Type="Int32" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="date_of_sale" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Partners" Relationship="Self.FK_Partner_poducts_Partners" FromRole="Partner_poducts" ToRole="Partners" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Partner_poducts_Products" FromRole="Partner_poducts" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Partners">
+          <Key>
+            <PropertyRef Name="id_partner" />
+          </Key>
+          <Property Name="id_partner" Type="Int32" Nullable="false" />
+          <Property Name="id_type_partners" Type="Int32" />
+          <Property Name="name_partners" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="director" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="adress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="INN" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="rating" Type="Int32" />
+          <NavigationProperty Name="Material_types" Relationship="Self.FK_Partners_Material_types" FromRole="Partners" ToRole="Material_types" />
+          <NavigationProperty Name="Partner_poducts" Relationship="Self.FK_Partner_poducts_Partners" FromRole="Partners" ToRole="Partner_poducts" />
+          <NavigationProperty Name="Partners_types" Relationship="Self.FK_Partners_Partners_types" FromRole="Partners" ToRole="Partners_types" />
+        </EntityType>
+        <EntityType Name="Partners_types">
+          <Key>
+            <PropertyRef Name="id__type_partners" />
+          </Key>
+          <Property Name="id__type_partners" Type="Int32" Nullable="false" />
+          <Property Name="name_type_partners" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Partners" Relationship="Self.FK_Partners_Partners_types" FromRole="Partners_types" ToRole="Partners" />
+        </EntityType>
+        <EntityType Name="Product_types">
+          <Key>
+            <PropertyRef Name="id_type" />
+          </Key>
+          <Property Name="id_type" Type="Int32" Nullable="false" />
+          <Property Name="name_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="coefficient_product" Type="Decimal" Precision="5" Scale="2" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Products_Product_types" FromRole="Product_types" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="id_poduct" />
+          </Key>
+          <Property Name="id_poduct" Type="Int32" Nullable="false" />
+          <Property Name="id_type" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="article" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Partner_poducts" Relationship="Self.FK_Partner_poducts_Products" FromRole="Products" ToRole="Partner_poducts" />
+          <NavigationProperty Name="Product_types" Relationship="Self.FK_Products_Product_types" FromRole="Products" ToRole="Product_types" />
+        </EntityType>
+        <Association Name="FK_Partners_Material_types">
+          <End Role="Material_types" Type="Self.Material_types" Multiplicity="1" />
+          <End Role="Partners" Type="Self.Partners" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Material_types">
+              <PropertyRef Name="id_material_type" />
+            </Principal>
+            <Dependent Role="Partners">
+              <PropertyRef Name="id_partner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partner_poducts_Partners">
+          <End Role="Partners" Type="Self.Partners" Multiplicity="0..1" />
+          <End Role="Partner_poducts" Type="Self.Partner_poducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partners">
+              <PropertyRef Name="id_partner" />
+            </Principal>
+            <Dependent Role="Partner_poducts">
+              <PropertyRef Name="id_partner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partner_poducts_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="Partner_poducts" Type="Self.Partner_poducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="id_poduct" />
+            </Principal>
+            <Dependent Role="Partner_poducts">
+              <PropertyRef Name="id_product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partners_Partners_types">
+          <End Role="Partners_types" Type="Self.Partners_types" Multiplicity="0..1" />
+          <End Role="Partners" Type="Self.Partners" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partners_types">
+              <PropertyRef Name="id__type_partners" />
+            </Principal>
+            <Dependent Role="Partners">
+              <PropertyRef Name="id_type_partners" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Product_types">
+          <End Role="Product_types" Type="Self.Product_types" Multiplicity="0..1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_types">
+              <PropertyRef Name="id_type" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="id_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Material_types" EntityType="Self.Material_types" />
+          <EntitySet Name="Partner_poducts" EntityType="Self.Partner_poducts" />
+          <EntitySet Name="Partners" EntityType="Self.Partners" />
+          <EntitySet Name="Partners_types" EntityType="Self.Partners_types" />
+          <EntitySet Name="Product_types" EntityType="Self.Product_types" />
+          <EntitySet Name="Products" EntityType="Self.Products" />
+          <AssociationSet Name="FK_Partners_Material_types" Association="Self.FK_Partners_Material_types">
+            <End Role="Material_types" EntitySet="Material_types" />
+            <End Role="Partners" EntitySet="Partners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partner_poducts_Partners" Association="Self.FK_Partner_poducts_Partners">
+            <End Role="Partners" EntitySet="Partners" />
+            <End Role="Partner_poducts" EntitySet="Partner_poducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partner_poducts_Products" Association="Self.FK_Partner_poducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Partner_poducts" EntitySet="Partner_poducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partners_Partners_types" Association="Self.FK_Partners_Partners_types">
+            <End Role="Partners_types" EntitySet="Partners_types" />
+            <End Role="Partners" EntitySet="Partners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_Product_types" Association="Self.FK_Products_Product_types">
+            <End Role="Product_types" EntitySet="Product_types" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище user1ModelContainer" CdmEntityContainer="DBEntities">
+          <EntitySetMapping Name="Material_types">
+            <EntityTypeMapping TypeName="user1Model.Material_types">
+              <MappingFragment StoreEntitySet="Material_types">
+                <ScalarProperty Name="id_material_type" ColumnName="id_material_type" />
+                <ScalarProperty Name="percentage_of_marriage" ColumnName="percentage_of_marriage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partner_poducts">
+            <EntityTypeMapping TypeName="user1Model.Partner_poducts">
+              <MappingFragment StoreEntitySet="Partner_poducts">
+                <ScalarProperty Name="id_partner_product" ColumnName="id_partner_product" />
+                <ScalarProperty Name="id_product" ColumnName="id_product" />
+                <ScalarProperty Name="id_partner" ColumnName="id_partner" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="date_of_sale" ColumnName="date_of_sale" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partners">
+            <EntityTypeMapping TypeName="user1Model.Partners">
+              <MappingFragment StoreEntitySet="Partners">
+                <ScalarProperty Name="id_partner" ColumnName="id_partner" />
+                <ScalarProperty Name="id_type_partners" ColumnName="id_type_partners" />
+                <ScalarProperty Name="name_partners" ColumnName="name_partners" />
+                <ScalarProperty Name="director" ColumnName="director" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="adress" ColumnName="adress" />
+                <ScalarProperty Name="INN" ColumnName="INN" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partners_types">
+            <EntityTypeMapping TypeName="user1Model.Partners_types">
+              <MappingFragment StoreEntitySet="Partners_types">
+                <ScalarProperty Name="id__type_partners" ColumnName="id__type_partners" />
+                <ScalarProperty Name="name_type_partners" ColumnName="name_type_partners" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_types">
+            <EntityTypeMapping TypeName="user1Model.Product_types">
+              <MappingFragment StoreEntitySet="Product_types">
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="name_type" ColumnName="name_type" />
+                <ScalarProperty Name="coefficient_product" ColumnName="coefficient_product" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="user1Model.Products">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="id_poduct" ColumnName="id_poduct" />
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="article" ColumnName="article" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
