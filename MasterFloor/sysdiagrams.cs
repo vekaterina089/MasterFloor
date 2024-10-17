@@ -12,18 +12,12 @@ namespace MasterFloor
     using System;
     using System.Collections.Generic;
     
-    public partial class Partner_poducts
+    public partial class sysdiagrams
     {
-        public int id_partner_product { get; set; }
-        public Nullable<int> id_product { get; set; }
-        public Nullable<int> id_partner { get; set; }
-        public Nullable<int> quantity { get; set; }
-        public Nullable<System.DateTime> date_of_sale { get; set; }
-    
-        public virtual Partners Partners { get; set; }
-        public virtual Products Products { get; set; }
-
-
-        
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

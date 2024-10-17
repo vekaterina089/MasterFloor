@@ -11,7 +11,7 @@ namespace MasterFloor
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Partners
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +19,7 @@ namespace MasterFloor
         {
             this.Partner_poducts = new HashSet<Partner_poducts>();
         }
-    
+
         public int id_partner { get; set; }
         public Nullable<int> id_type_partners { get; set; }
         public string name_partners { get; set; }
@@ -29,10 +29,43 @@ namespace MasterFloor
         public string adress { get; set; }
         public string INN { get; set; }
         public Nullable<int> rating { get; set; }
-    
+
         public virtual Material_types Material_types { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Partner_poducts> Partner_poducts { get; set; }
         public virtual Partners_types Partners_types { get; set; }
+
+        public string discount
+        {
+            get
+            {
+                int summa = 0;
+                foreach (var item in Partner_poducts)
+                {
+                    summa += (int)item.quantity;
+                }
+
+                if (summa < 10000)
+                {
+                    return "0%";
+                }
+                else if (summa >= 10000 && summa < 50000)
+                {
+                    return "5%";
+                }
+                else if (summa >= 50000 && summa < 300000)
+                {
+                    return "10%";
+                }
+                else
+                {
+                    return "15%";
+                }
+            }
+        }
+
+
+
+
     }
 }

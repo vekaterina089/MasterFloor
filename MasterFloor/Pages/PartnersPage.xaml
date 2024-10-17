@@ -31,7 +31,7 @@
                             </Grid.ColumnDefinitions>
 
 
-                        <TextBlock Text="{Binding type_partners}" FontSize="20" Grid.Column="0" />
+                            <TextBlock Text="{Binding Partners_types.name_type_partners}" FontSize="20" Grid.Column="0" />
 
                         <TextBlock Text="{Binding name_partners}" FontSize="20" Grid.Column="1" HorizontalAlignment="Left" />
 
